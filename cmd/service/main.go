@@ -7,6 +7,7 @@ import (
 	"gorm.io/gorm"
 	"topsis/config"
 	"topsis/handler"
+	"topsis/internal/infrastructure/repository"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -22,6 +23,10 @@ func main() {
 	if err != nil {
 		log.Fatal("failed to open database:", err)
 	}
+
+	userRepo := repository.NewUserRepository(db)
+	standardRepo := repository.NewStandardRepository(db)
+	scoreRatingRepo := repository.NewScoreRatingRepository(db)
 
 	initRoute()
 }
