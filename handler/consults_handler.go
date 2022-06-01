@@ -2,6 +2,6 @@ package handler
 
 import "github.com/gin-gonic/gin"
 
-func Consult(c *gin.Context) {
+func (h *Handler) Consult(c *gin.Context) {
 
 }
