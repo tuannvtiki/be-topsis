@@ -7,6 +7,7 @@ import (
 	"gorm.io/gorm"
 	"topsis/config"
 	"topsis/handler"
+	"topsis/internal/domain/usecase"
 	"topsis/internal/infrastructure/repository"
 
 	"github.com/gin-contrib/cors"
@@ -17,21 +18,30 @@ func main() {
 	cfg, err := config.LoadConfig("build")
 	if err != nil {
 		log.Fatal("cannot load config:", err)
+		return
 	}
 
 	db, err := gorm.Open(mysql.Open(cfg.DBSource), &gorm.Config{})
 	if err != nil {
 		log.Fatal("failed to open database:", err)
+		return
 	}
 
 	userRepo := repository.NewUserRepository(db)
 	standardRepo := repository.NewStandardRepository(db)
 	scoreRatingRepo := repository.NewScoreRatingRepository(db)
 
-	initRoute()
+	userDomain := usecase.NewUserDomain(userRepo)
+	standardDomain := usecase.NewStandardDomain(standardRepo)
+	scoreRatingDomain := usecase.NewScoreRatingDomain(scoreRatingRepo)
+
+	initRoutes(userDomain, standardDomain, scoreRatingDomain)
 }
 
-func initRoute() {
+func initRoutes(userDomain *usecase.UserDomain, standardDomain *usecase.StandardDomain, scoreRatingDomain *usecase.ScoreRatingDomain) {
+	// init handler
+	h := handler.NewHandler(userDomain, standardDomain, scoreRatingDomain)
+
 	r := gin.Default()
 	r.Use(cors.New(cors.Config{
 		AllowOrigins:     []string{"*"},
@@ -44,19 +54,22 @@ func initRoute() {
 	api := r.Group("v1/api")
 	{
 		// API users
-		api.POST("v1/user", handler.CreateUser)
+		api.POST("/users", h.CreateUser)
 
 		// API standards
-		api.POST("v1/standards", handler.CreateStandard)
-		api.GET("v1/standards", handler.GetStandard)
-		api.DELETE("v1/standards", handler.DeleteStandard)
+		api.POST("/standards", h.CreateStandard)
+		api.GET("/standards", h.GetStandard)
+		api.DELETE("/standards", h.DeleteStandard)
 
 		// API score_ratings
-		api.POST("v1/score_ratings", handler.CreateScoreRating)
-		api.DELETE("v1/score_ratings", handler.DeleteScoreRating)
+		api.POST("/score_ratings", h.CreateScoreRating)
+		api.DELETE("/score_ratings", h.DeleteScoreRating)
 
 		// API Consult
-		api.POST("v1/consult", handler.Consult)
+		api.POST("/consult", h.Consult)
 	}
-	r.Run(":3000")
+	err := r.Run(":3000")
+	if err != nil {
+		return
+	}
 }

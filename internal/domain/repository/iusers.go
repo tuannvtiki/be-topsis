@@ -1,7 +1,11 @@
 package repository
 
-import "context"
+import (
+	"context"
 
-type RuleRepositoryInterface interface {
-	CreateRule(ctx context.Context, ruleDto *dto.RuleDto) (*dto.RuleDto, error)
+	"topsis/internal/domain/model"
+)
+
+type UserRepositoryInterface interface {
+	CreateUser(ctx context.Context, user *model.User) (*model.User, error)
 }
