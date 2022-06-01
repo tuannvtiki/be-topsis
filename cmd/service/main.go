@@ -6,6 +6,7 @@ import (
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"topsis/config"
+	"topsis/handler"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -38,19 +39,19 @@ func initRoute() {
 	api := r.Group("v1/api")
 	{
 		// API users
-		api.POST("v1/user", controller.CreateUser)
+		api.POST("v1/user", handler.CreateUser)
 
 		// API standards
-		api.POST("v1/standards", controller.CountMessageNoRead)
-		api.GET("v1/standards")
-		api.DELETE("v1/standards")
+		api.POST("v1/standards", handler.CreateStandard)
+		api.GET("v1/standards", handler.GetStandard)
+		api.DELETE("v1/standards", handler.DeleteStandard)
 
 		// API score_ratings
-		api.POST("v1/score_ratings")
-		api.DELETE("v1/score_ratings")
+		api.POST("v1/score_ratings", handler.CreateScoreRating)
+		api.DELETE("v1/score_ratings", handler.DeleteScoreRating)
 
 		// API Consult
-		api.POST("v1/consult")
+		api.POST("v1/consult", handler.Consult)
 	}
 	r.Run(":3000")
 }
