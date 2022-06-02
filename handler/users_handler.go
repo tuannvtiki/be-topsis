@@ -13,6 +13,7 @@ import (
 func (h *Handler) CreateUser(c *gin.Context) {
 	logrus.Info("Start api create user...")
 
+	// Parse request
 	var userRequest *model.UserRequest
 	err := c.ShouldBindJSON(&userRequest)
 	if err != nil {
@@ -21,6 +22,15 @@ func (h *Handler) CreateUser(c *gin.Context) {
 			Code:    http.StatusBadRequest,
 			Message: constant.ParseRequestFail,
 		})
+		return
+	}
+
+	// Validate request
+	listErr := h.ValidateRequest(userRequest)
+	if len(listErr) > 0 {
+		logrus.Errorf("Request is invalid: %v", listErr)
+		c.JSON(http.StatusBadRequest, listErr)
+		return
 	}
 
 	userCreated, err := h.userDomain.CreateUser(c, userRequest.Name)
@@ -30,6 +40,7 @@ func (h *Handler) CreateUser(c *gin.Context) {
 			Code:    http.StatusBadRequest,
 			Message: constant.CreateNewUserFail,
 		})
+		return
 	}
 
 	logrus.Info("Create new user success")
@@ -37,4 +48,5 @@ func (h *Handler) CreateUser(c *gin.Context) {
 		ID:   userCreated.ID,
 		Name: userCreated.Name,
 	})
+	return
 }

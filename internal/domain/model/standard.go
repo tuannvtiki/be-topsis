@@ -1,13 +1,19 @@
 package model
 
-import "time"
+import "topsis/handler/model"
 
 type Standard struct {
-	Id           string     `json:"id"`
-	UserId       string     `json:"user_id"`
-	StandardName string     `json:"standard_name"`
-	Weight       int        `json:"weight"`
-	CreatedAt    *time.Time `json:"created_at"`
-	UpdatedAt    *time.Time `json:"updated_at"`
-	DeletedAt    *time.Time `json:"deleted_at"`
+	Model
+	UserId       string `json:"user_id"`
+	StandardName string `json:"standard_name"`
+	Weight       int    `json:"weight"`
+}
+
+func (s *Standard) ToResponse() *model.StandardResponse {
+	return &model.StandardResponse{
+		ID:           s.ID,
+		UserID:       s.UserId,
+		StandardName: s.StandardName,
+		Weight:       s.Weight,
+	}
 }
