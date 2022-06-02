@@ -2,9 +2,9 @@ package main
 
 import (
 	"log"
+	"os"
+	"time"
 
-	"gorm.io/driver/mysql"
-	"gorm.io/gorm"
 	"topsis/config"
 	"topsis/handler"
 	"topsis/internal/domain/usecase"
@@ -12,6 +12,10 @@ import (
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator/v10"
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 )
 
 func main() {
@@ -21,11 +25,26 @@ func main() {
 		return
 	}
 
-	db, err := gorm.Open(mysql.Open(cfg.DBSource), &gorm.Config{})
+	newLogger := logger.New(
+		log.New(os.Stdout, "\r\n", log.LstdFlags), // io writer
+		logger.Config{
+			SlowThreshold:             time.Second, // Slow SQL threshold
+			LogLevel:                  logger.Info, // Log level
+			IgnoreRecordNotFoundError: true,        // Ignore ErrRecordNotFound error for logger
+			Colorful:                  false,       // Disable color
+		},
+	)
+
+	db, err := gorm.Open(mysql.Open(cfg.DBSource), &gorm.Config{
+		Logger: newLogger,
+	})
 	if err != nil {
 		log.Fatal("failed to open database:", err)
 		return
 	}
+
+	// validator
+	validate := validator.New()
 
 	userRepo := repository.NewUserRepository(db)
 	standardRepo := repository.NewStandardRepository(db)
@@ -35,12 +54,12 @@ func main() {
 	standardDomain := usecase.NewStandardDomain(standardRepo)
 	scoreRatingDomain := usecase.NewScoreRatingDomain(scoreRatingRepo)
 
-	initRoutes(userDomain, standardDomain, scoreRatingDomain)
+	initRoutes(userDomain, standardDomain, scoreRatingDomain, validate)
 }
 
-func initRoutes(userDomain *usecase.UserDomain, standardDomain *usecase.StandardDomain, scoreRatingDomain *usecase.ScoreRatingDomain) {
+func initRoutes(userDomain *usecase.UserDomain, standardDomain *usecase.StandardDomain, scoreRatingDomain *usecase.ScoreRatingDomain, validate *validator.Validate) {
 	// init handler
-	h := handler.NewHandler(userDomain, standardDomain, scoreRatingDomain)
+	h := handler.NewHandler(userDomain, standardDomain, scoreRatingDomain, validate)
 
 	r := gin.Default()
 	r.Use(cors.New(cors.Config{
@@ -58,8 +77,8 @@ func initRoutes(userDomain *usecase.UserDomain, standardDomain *usecase.Standard
 
 		// API standards
 		api.POST("/standards", h.CreateStandard)
-		api.GET("/standards", h.GetStandard)
-		api.DELETE("/standards", h.DeleteStandard)
+		api.GET("/standards/:user_id", h.GetStandards)
+		api.DELETE("/standards/:id", h.DeleteStandard)
 
 		// API score_ratings
 		api.POST("/score_ratings", h.CreateScoreRating)
