@@ -9,6 +9,7 @@ type Handler struct {
 	userDomain        *usecase.UserDomain
 	standardDomain    *usecase.StandardDomain
 	scoreRatingDomain *usecase.ScoreRatingDomain
+	consultDomain     *usecase.ConsultDomain
 	validate          *validator.Validate
 }
 
@@ -16,11 +17,13 @@ func NewHandler(
 	userDomain *usecase.UserDomain,
 	standardDomain *usecase.StandardDomain,
 	scoreRatingDomain *usecase.ScoreRatingDomain,
+	consultDomain *usecase.ConsultDomain,
 	validate *validator.Validate) *Handler {
 	return &Handler{
 		userDomain:        userDomain,
 		standardDomain:    standardDomain,
 		scoreRatingDomain: scoreRatingDomain,
+		consultDomain:     consultDomain,
 		validate:          validate,
 	}
 }
