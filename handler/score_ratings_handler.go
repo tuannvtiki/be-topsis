@@ -53,6 +53,36 @@ func (h *Handler) BulkCreateScoreRating(c *gin.Context) {
 	return
 }
 
+func (h *Handler) GetScoreRatings(c *gin.Context) {
+	logrus.Info("Start api get list score rating by user id...")
+
+	// Get request param
+	userID := c.Param("user_id")
+
+	result, err := h.scoreRatingDomain.GetListScoreRating(c, &model.ScoreRating{
+		UserId: userID,
+	})
+	if err != nil {
+		logrus.Errorf("Get list score rating fail: %v", err)
+		c.JSON(http.StatusBadRequest, &model.ErrorSystem{
+			Code:    http.StatusBadRequest,
+			Message: constant.GetListScoreRatingFail,
+		})
+		return
+	}
+
+	logrus.Info("Get list score rating success")
+	var res []*model.ScoreRatingResponse
+	for _, value := range result {
+		res = append(res, &model.ScoreRatingResponse{
+			ID:       value.ID,
+			Metadata: value.Metadata,
+		})
+	}
+	c.JSON(http.StatusOK, res)
+	return
+}
+
 func (h *Handler) DeleteScoreRating(c *gin.Context) {
 	logrus.Info("Start api delete score rating...")
 

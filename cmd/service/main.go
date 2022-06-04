@@ -83,6 +83,7 @@ func initRoutes(userDomain *usecase.UserDomain, standardDomain *usecase.Standard
 
 		// API score_ratings
 		api.POST("/score-ratings", h.BulkCreateScoreRating)
+		api.GET("/score-ratings/:user_id", h.GetScoreRatings)
 		api.DELETE("/score-ratings/:id", h.DeleteScoreRating)
 
 		// API Consult

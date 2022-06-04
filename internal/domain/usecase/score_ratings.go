@@ -35,6 +35,12 @@ func (s *ScoreRatingDomain) BulkCreateScoreRating(ctx context.Context, scoreRati
 	return s.scoreRatingRepo.BulkCreateScoreRating(ctx, scoreRatings)
 }
 
+func (s *ScoreRatingDomain) GetListScoreRating(ctx context.Context, scoreRating *model.ScoreRating) ([]*modelDomain.ScoreRating, error) {
+	return s.scoreRatingRepo.GetScoreRatingByListQueries(ctx, map[string]interface{}{
+		"user_id": scoreRating.UserId,
+	})
+}
+
 func (s *ScoreRatingDomain) DeleteScoreRating(ctx context.Context, scoreRating *model.ScoreRating) error {
 	return s.scoreRatingRepo.DeleteScoreRatingByQueries(ctx, map[string]interface{}{
 		"id": scoreRating.ID,
