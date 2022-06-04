@@ -7,7 +7,6 @@ type ScoreRatingRequest struct {
 
 type ScoreRatingResponse struct {
 	ID       string `json:"id"`
-	UserId   string `json:"user_id"`
 	Metadata string `json:"metadata"`
 }
 

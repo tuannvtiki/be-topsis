@@ -8,6 +8,7 @@ const (
 	GetStandardsFail             = "Get list standard fail"
 	BulkCreateNewScoreRatingFail = "Bulk create new score rating fail"
 	DeleteScoreRatingFail        = "Delete score rating fail"
+	GetListScoreRatingFail       = "Get list score rating fail"
 	ConsultResultFail            = "Consult result fail"
 )
 
