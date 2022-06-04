@@ -7,6 +7,7 @@ import (
 )
 
 type ScoreRatingRepositoryInterface interface {
-	CreateScoreRating(ctx context.Context, standard *model.ScoreRating) (*model.ScoreRating, error)
-	DeleteScoreRatingByQueries(ctx context.Context, standard map[string]interface{}) (*model.ScoreRating, error)
+	BulkCreateScoreRating(ctx context.Context, scoreRatings []*model.ScoreRating) error
+	GetScoreRatingByListQueries(ctx context.Context, queries map[string]interface{}) ([]*model.ScoreRating, error)
+	DeleteScoreRatingByQueries(ctx context.Context, queries map[string]interface{}) error
 }

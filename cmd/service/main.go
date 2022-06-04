@@ -53,13 +53,14 @@ func main() {
 	userDomain := usecase.NewUserDomain(userRepo)
 	standardDomain := usecase.NewStandardDomain(standardRepo)
 	scoreRatingDomain := usecase.NewScoreRatingDomain(scoreRatingRepo)
+	consultDomain := usecase.NewConsultDomain(userRepo, standardRepo, scoreRatingRepo)
 
-	initRoutes(userDomain, standardDomain, scoreRatingDomain, validate)
+	initRoutes(userDomain, standardDomain, scoreRatingDomain, consultDomain, validate)
 }
 
-func initRoutes(userDomain *usecase.UserDomain, standardDomain *usecase.StandardDomain, scoreRatingDomain *usecase.ScoreRatingDomain, validate *validator.Validate) {
+func initRoutes(userDomain *usecase.UserDomain, standardDomain *usecase.StandardDomain, scoreRatingDomain *usecase.ScoreRatingDomain, consultDomain *usecase.ConsultDomain, validate *validator.Validate) {
 	// init handler
-	h := handler.NewHandler(userDomain, standardDomain, scoreRatingDomain, validate)
+	h := handler.NewHandler(userDomain, standardDomain, scoreRatingDomain, consultDomain, validate)
 
 	r := gin.Default()
 	r.Use(cors.New(cors.Config{
@@ -81,11 +82,11 @@ func initRoutes(userDomain *usecase.UserDomain, standardDomain *usecase.Standard
 		api.DELETE("/standards/:id", h.DeleteStandard)
 
 		// API score_ratings
-		api.POST("/score_ratings", h.CreateScoreRating)
-		api.DELETE("/score_ratings", h.DeleteScoreRating)
+		api.POST("/score-ratings", h.BulkCreateScoreRating)
+		api.DELETE("/score-ratings/:id", h.DeleteScoreRating)
 
 		// API Consult
-		api.POST("/consult", h.Consult)
+		api.POST("/consult/:user_id", h.Consult)
 	}
 	err := r.Run(":3000")
 	if err != nil {
