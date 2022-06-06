@@ -89,7 +89,7 @@ func initRoutes(cfg *config.Config, userDomain *usecase.UserDomain, standardDoma
 		// API Consult
 		api.POST("/consult/:user_id", h.Consult)
 	}
-	err := r.Run(cfg.Port)
+	err := r.Run(":" + cfg.Port)
 	if err != nil {
 		return
 	}
