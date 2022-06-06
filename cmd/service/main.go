@@ -89,7 +89,7 @@ func initRoutes(userDomain *usecase.UserDomain, standardDomain *usecase.Standard
 		// API Consult
 		api.POST("/consult/:user_id", h.Consult)
 	}
-	err := r.Run(":3000")
+	err := r.Run()
 	if err != nil {
 		return
 	}
