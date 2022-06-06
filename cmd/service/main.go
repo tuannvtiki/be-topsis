@@ -55,10 +55,10 @@ func main() {
 	scoreRatingDomain := usecase.NewScoreRatingDomain(scoreRatingRepo)
 	consultDomain := usecase.NewConsultDomain(userRepo, standardRepo, scoreRatingRepo)
 
-	initRoutes(userDomain, standardDomain, scoreRatingDomain, consultDomain, validate)
+	initRoutes(cfg, userDomain, standardDomain, scoreRatingDomain, consultDomain, validate)
 }
 
-func initRoutes(userDomain *usecase.UserDomain, standardDomain *usecase.StandardDomain, scoreRatingDomain *usecase.ScoreRatingDomain, consultDomain *usecase.ConsultDomain, validate *validator.Validate) {
+func initRoutes(cfg *config.Config, userDomain *usecase.UserDomain, standardDomain *usecase.StandardDomain, scoreRatingDomain *usecase.ScoreRatingDomain, consultDomain *usecase.ConsultDomain, validate *validator.Validate) {
 	// init handler
 	h := handler.NewHandler(userDomain, standardDomain, scoreRatingDomain, consultDomain, validate)
 
@@ -89,7 +89,7 @@ func initRoutes(userDomain *usecase.UserDomain, standardDomain *usecase.Standard
 		// API Consult
 		api.POST("/consult/:user_id", h.Consult)
 	}
-	err := r.Run(":3000")
+	err := r.Run(cfg.Port)
 	if err != nil {
 		return
 	}
