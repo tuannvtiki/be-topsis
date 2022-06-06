@@ -1,6 +1,6 @@
 module topsis
 
-// +heroku goVersion go1.18
+// +heroku goVersion go1.18.2
 go 1.18
 
 require (
