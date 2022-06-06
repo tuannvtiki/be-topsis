@@ -62,7 +62,7 @@ func initRoutes(cfg *config.Config, userDomain *usecase.UserDomain, standardDoma
 	// init handler
 	h := handler.NewHandler(userDomain, standardDomain, scoreRatingDomain, consultDomain, validate)
 
-	r := gin.Default()
+	r := gin.New()
 	r.Use(cors.New(cors.Config{
 		AllowOrigins:     []string{"*"},
 		AllowMethods:     []string{"POST", "GET", "PUT", "PATCH"},

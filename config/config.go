@@ -30,9 +30,9 @@ func LoadConfig(path string) (*Config, error) {
 	if err != nil {
 		return nil, err
 	}
-	port := os.Getenv("PORT")
-	if port == "" {
-		port = "3000"
+	config.Port = os.Getenv("PORT")
+	if config.Port == "" {
+		config.Port = "3000"
 	}
 
 	return config, nil
