@@ -1,6 +1,10 @@
 package config
 
-import "github.com/spf13/viper"
+import (
+	"os"
+
+	"github.com/spf13/viper"
+)
 
 type Config struct {
 	DBDriver string `mapstructure:"DB_DRIVER"`
@@ -25,6 +29,10 @@ func LoadConfig(path string) (*Config, error) {
 	err = viper.Unmarshal(&config)
 	if err != nil {
 		return nil, err
+	}
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "3000"
 	}
 
 	return config, nil
