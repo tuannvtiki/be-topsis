@@ -30,9 +30,14 @@ func LoadConfig(path string) (*Config, error) {
 	if err != nil {
 		return nil, err
 	}
-	config.Port = os.Getenv("PORT")
-	if config.Port == "" {
-		config.Port = "3000"
+	port := os.Getenv("PORT")
+	if port != "" {
+		config.Port = port
+	}
+
+	dbConfig := os.Getenv("DB_SOURCE")
+	if dbConfig != "" {
+		config.DBSource = dbConfig
 	}
 
 	return config, nil
