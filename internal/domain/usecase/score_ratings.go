@@ -41,6 +41,19 @@ func (s *ScoreRatingDomain) GetListScoreRating(ctx context.Context, scoreRating 
 	})
 }
 
+func (s *ScoreRatingDomain) UpdateScoreRating(ctx context.Context, scoreRating *model.ScoreRating) error {
+	data, err := s.scoreRatingRepo.GetScoreRatingByListQueries(ctx, map[string]interface{}{
+		"id": scoreRating.ID,
+	})
+	if err != nil {
+		return err
+	}
+
+	return s.scoreRatingRepo.UpdateScoreRatingWithMap(ctx, data[0], map[string]interface{}{
+		"metadata": scoreRating.Metadata,
+	})
+}
+
 func (s *ScoreRatingDomain) DeleteScoreRating(ctx context.Context, scoreRating *model.ScoreRating) error {
 	return s.scoreRatingRepo.DeleteScoreRatingByQueries(ctx, map[string]interface{}{
 		"id": scoreRating.ID,

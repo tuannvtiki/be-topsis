@@ -84,6 +84,7 @@ func initRoutes(cfg *config.Config, userDomain *usecase.UserDomain, standardDoma
 		// API score_ratings
 		api.POST("/score-ratings", h.BulkCreateScoreRating)
 		api.GET("/score-ratings/:user_id", h.GetScoreRatings)
+		api.PUT("/score-ratings", h.UpdateScoreRating)
 		api.DELETE("/score-ratings/:id", h.DeleteScoreRating)
 
 		// API Consult

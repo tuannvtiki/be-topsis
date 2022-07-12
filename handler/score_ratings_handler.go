@@ -83,6 +83,42 @@ func (h *Handler) GetScoreRatings(c *gin.Context) {
 	return
 }
 
+func (h *Handler) UpdateScoreRating(c *gin.Context) {
+	logrus.Info("Start api update score rating...")
+
+	// Parse request
+	var scoreRatingRequest *model.ScoreRatingRequest
+	err := c.ShouldBindJSON(&scoreRatingRequest)
+	if err != nil {
+		logrus.Errorf("Parse request update score rating fail: %v", err)
+		c.JSON(http.StatusBadRequest, &model.ErrorSystem{
+			Code:    http.StatusBadRequest,
+			Message: constant.ParseRequestFail,
+		})
+		return
+	}
+
+	err = h.scoreRatingDomain.UpdateScoreRating(c, &model.ScoreRating{
+		ID:       scoreRatingRequest.ID,
+		Metadata: scoreRatingRequest.Metadata,
+	})
+	if err != nil {
+		logrus.Errorf("Update score rating fail: %v", err)
+		c.JSON(http.StatusBadRequest, &model.ErrorSystem{
+			Code:    http.StatusBadRequest,
+			Message: constant.UpdateScoreRatingFail,
+		})
+		return
+	}
+
+	logrus.Info("Update score rating success")
+	c.JSON(http.StatusOK, &model.UpdateResponse{
+		Id:     scoreRatingRequest.ID,
+		Status: model.SUCCESS,
+	})
+	return
+}
+
 func (h *Handler) DeleteScoreRating(c *gin.Context) {
 	logrus.Info("Start api delete score rating...")
 
