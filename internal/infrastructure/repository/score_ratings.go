@@ -31,6 +31,13 @@ func (sr *ScoreRatingRepository) GetScoreRatingByListQueries(ctx context.Context
 	return result, nil
 }
 
+func (sr *ScoreRatingRepository) UpdateScoreRatingWithMap(ctx context.Context, scoreRating *model.ScoreRating, data map[string]interface{}) error {
+	if err := sr.db.Model(&scoreRating).Updates(data).Error; err != nil {
+		return err
+	}
+	return nil
+}
+
 func (sr *ScoreRatingRepository) DeleteScoreRatingByQueries(ctx context.Context, queries map[string]interface{}) error {
 	return sr.db.Where(queries).Delete(&model.ScoreRating{}).Error
 }
