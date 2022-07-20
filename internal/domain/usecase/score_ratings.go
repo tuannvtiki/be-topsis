@@ -38,13 +38,13 @@ func (s *ScoreRatingDomain) BulkCreateScoreRating(ctx context.Context, scoreRati
 func (s *ScoreRatingDomain) GetListScoreRating(ctx context.Context, scoreRating *model.ScoreRating) ([]*modelDomain.ScoreRating, error) {
 	return s.scoreRatingRepo.GetScoreRatingByListQueries(ctx, map[string]interface{}{
 		"user_id": scoreRating.UserId,
-	})
+	}, []string{"created_at", "asc"})
 }
 
 func (s *ScoreRatingDomain) UpdateScoreRating(ctx context.Context, scoreRating *model.ScoreRating) error {
 	data, err := s.scoreRatingRepo.GetScoreRatingByListQueries(ctx, map[string]interface{}{
 		"id": scoreRating.ID,
-	})
+	}, []string{"created_at", "asc"})
 	if err != nil {
 		return err
 	}
