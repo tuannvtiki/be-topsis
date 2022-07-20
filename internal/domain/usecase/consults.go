@@ -66,7 +66,7 @@ func (c *ConsultDomain) Consult(ctx context.Context, userId string) ([]*model.Co
 		defer wg.Done()
 		scoreRatings, scopedErr := c.scoreRatingRepo.GetScoreRatingByListQueries(ctx, map[string]interface{}{
 			"user_id": userId,
-		})
+		}, []string{"created_at", "asc"})
 		if scopedErr != nil {
 			err = scopedErr
 			return
