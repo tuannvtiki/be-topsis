@@ -2,6 +2,7 @@ package repository
 
 import (
 	"context"
+	"strings"
 
 	"gorm.io/gorm"
 	"topsis/internal/domain/model"
@@ -23,9 +24,9 @@ func (sr *ScoreRatingRepository) BulkCreateScoreRating(ctx context.Context, scor
 	return sr.db.CreateInBatches(&scoreRatings, BatchSizeCreate).Error
 }
 
-func (sr *ScoreRatingRepository) GetScoreRatingByListQueries(ctx context.Context, queries map[string]interface{}) ([]*model.ScoreRating, error) {
+func (sr *ScoreRatingRepository) GetScoreRatingByListQueries(ctx context.Context, queries map[string]interface{}, sort []string) ([]*model.ScoreRating, error) {
 	var result []*model.ScoreRating
-	if err := sr.db.Where(queries).Find(&result).Error; err != nil {
+	if err := sr.db.Where(queries).Order(strings.Join(sort, " ")).Find(&result).Error; err != nil {
 		return nil, err
 	}
 	return result, nil
