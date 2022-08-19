@@ -7,9 +7,20 @@ import (
 )
 
 type Config struct {
-	DBDriver string `mapstructure:"DB_DRIVER"`
-	DBSource string `mapstructure:"DB_SOURCE"`
-	Port     string `mapstructure:"PORT"`
+	DBDriver              string `mapstructure:"DB_DRIVER"`
+	DBSource              string `mapstructure:"DB_SOURCE"`
+	Port                  string `mapstructure:"PORT"`
+	AppID                 string `mapstructure:"APP_ID"`
+	WebhookSlack          string `mapstructure:"WEBHOOK_SLACK"`
+	ClientId              string `mapstructure:"CLIENT_ID"`
+	ClientSecret          string `mapstructure:"CLIENT_SECRET"`
+	RefreshToken          string `mapstructure:"REFRESH_TOKEN"`
+	GrantType             string `mapstructure:"GRANT_TYPE"`
+	Env                   string `mapstructure:"ENV"`
+	CronNotifyRun         string `mapstructure:"CRON_NOTIFY_RUN"`
+	CronNotifySummary     string `mapstructure:"CRON_NOTIFY_SUMMARY"`
+	CronNotifyStatistical string `mapstructure:"CRON_NOTIFY_STATISTICAL"`
+	ApiKeyUploadImage     string `mapstructure:"API_KEY_UPLOAD_IMAGE"`
 }
 
 // LoadConfig reads configuration from file or environment variables.
@@ -30,14 +41,21 @@ func LoadConfig(path string) (*Config, error) {
 	if err != nil {
 		return nil, err
 	}
-	port := os.Getenv("PORT")
-	if port != "" {
-		config.Port = port
-	}
 
-	dbConfig := os.Getenv("DB_SOURCE")
-	if dbConfig != "" {
-		config.DBSource = dbConfig
+	env := os.Getenv("ENV")
+	if env != "" {
+		config.Env = env
+	}
+	if config.Env != "local" {
+		config.Port = os.Getenv("PORT")
+		config.DBSource = os.Getenv("DB_SOURCE")
+		config.AppID = os.Getenv("APP_ID")
+		config.WebhookSlack = os.Getenv("WEBHOOK_SLACK")
+		config.ClientId = os.Getenv("CLIENT_ID")
+		config.ClientSecret = os.Getenv("CLIENT_SECRET")
+		config.RefreshToken = os.Getenv("REFRESH_TOKEN")
+		config.GrantType = os.Getenv("GRANT_TYPE")
+		config.ApiKeyUploadImage = os.Getenv("API_KEY_UPLOAD_IMAGE")
 	}
 
 	return config, nil
