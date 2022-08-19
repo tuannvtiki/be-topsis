@@ -170,5 +170,3 @@ func (b *BotNotify) ProcessNotifyStatistical() error {
 	}
 	return client.SendMessageSlack(b.cfg.WebhookSlack, message)
 }
-
-//https://hooks.slack.com/services/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
