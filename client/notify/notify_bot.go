@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"math"
+	"strconv"
 	"strings"
 	"time"
 
@@ -34,7 +35,6 @@ const (
 	Longitude      = "105.8412"
 	Units          = "metric"
 	Exclude        = "minutely,hourly,daily,alerts"
-	DistanceGoal   = 3000
 )
 
 type BotNotify struct {
@@ -92,6 +92,7 @@ func (b *BotNotify) ProcessNotifySummary() error {
 		return errors.New("strava activities information empty")
 	}
 
+	distanceGoal, err := strconv.ParseFloat(b.cfg.DistanceGoal, 64)
 	timeChart, messageActives, chartsInfo := time.Now().AddDate(0, 0, -1).Format(FormatDate), make([]*model.TextMessageNotifySummary, 0), make([]*internalModel.ChartInfo, 0)
 	for _, activity := range stravaActivities {
 		if timeChart != activity.StartDateLocal.Format(FormatDate) {
@@ -103,10 +104,10 @@ func (b *BotNotify) ProcessNotifySummary() error {
 			MovingTime:   time.Duration(activity.MovingTime * 1000000000).String(),
 			AverageSpeed: fmt.Sprintf("%.2f km/h", activity.AverageSpeed*60*60/float64(1000)),
 			MaxSpeed:     fmt.Sprintf("%.2f km/h", activity.MaxSpeed*60*60/float64(1000)),
-			Note:         fmt.Sprintf("Chúc mừng bạn đã hoàn thành mục tiêu chạy %v km ngày hôm qua %v nhé", DistanceGoal/1000, time.Now().AddDate(0, 0, -1).Format(FormatDate)),
+			Note:         fmt.Sprintf("Chúc mừng bạn đã hoàn thành mục tiêu chạy %v km ngày hôm qua %v nhé", distanceGoal, time.Now().AddDate(0, 0, -1).Format(FormatDate)),
 		}
-		if activity.Distance < DistanceGoal {
-			textMessage.Note = fmt.Sprintf("Bạn đã không hoàn thành mục tiêu chạy %v km ngày hôm qua %v rồi :sleepy: ", DistanceGoal/1000, time.Now().AddDate(0, 0, -1).Format(FormatDate))
+		if activity.Distance < distanceGoal*1000 {
+			textMessage.Note = fmt.Sprintf("Bạn đã không hoàn thành mục tiêu chạy %v km ngày hôm qua %v rồi :sleepy: ", distanceGoal, time.Now().AddDate(0, 0, -1).Format(FormatDate))
 		}
 		messageActives = append(messageActives, textMessage)
 		chartsInfo = append(chartsInfo, &internalModel.ChartInfo{

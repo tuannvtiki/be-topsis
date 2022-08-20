@@ -21,6 +21,7 @@ type Config struct {
 	CronNotifySummary     string `mapstructure:"CRON_NOTIFY_SUMMARY"`
 	CronNotifyStatistical string `mapstructure:"CRON_NOTIFY_STATISTICAL"`
 	ApiKeyUploadImage     string `mapstructure:"API_KEY_UPLOAD_IMAGE"`
+	DistanceGoal          string `mapstructure:"DISTANCE_GOAL"`
 }
 
 // LoadConfig reads configuration from file or environment variables.
@@ -56,6 +57,7 @@ func LoadConfig(path string) (*Config, error) {
 		config.RefreshToken = os.Getenv("REFRESH_TOKEN")
 		config.GrantType = os.Getenv("GRANT_TYPE")
 		config.ApiKeyUploadImage = os.Getenv("API_KEY_UPLOAD_IMAGE")
+		config.DistanceGoal = os.Getenv("DISTANCE_GOAL")
 	}
 
 	return config, nil
