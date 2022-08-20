@@ -1,10 +1,11 @@
 package usecase
 
 import (
+	"bytes"
+	"encoding/base64"
 	"encoding/json"
 	"errors"
 	"fmt"
-	"os"
 	"strings"
 	"time"
 
@@ -58,7 +59,7 @@ func (s *StatisticalDomain) UpsertStatistical(records []*model.ChartInfo) error 
 	})
 }
 
-func (s *StatisticalDomain) GetNameFilePath(queries map[string]interface{}) (string, error) {
+func (s *StatisticalDomain) GetBase64StringChart(queries map[string]interface{}) (string, error) {
 	statistical, err := s.statisticalRepo.GetByQueries(queries)
 	if err != nil {
 		return "", err
@@ -72,9 +73,13 @@ func (s *StatisticalDomain) GetNameFilePath(queries map[string]interface{}) (str
 
 	// Generate chart
 	graph := chart.BarChart{
-		Width:  1280,
-		Height: 720,
-		Title:  "Statistical Chart",
+		Width:  2560,
+		Height: 1440,
+		Title:  strings.Join([]string{"Statistical Chart", time.Now().Month().String(), fmt.Sprintf("%v", time.Now().Year())}, "-"),
+		XAxis: chart.Style{
+			Hidden:              false,
+			TextRotationDegrees: 45.0,
+		},
 	}
 
 	bars := make([]chart.Value, 0)
@@ -86,17 +91,12 @@ func (s *StatisticalDomain) GetNameFilePath(queries map[string]interface{}) (str
 	}
 	graph.Bars = bars
 
-	nameFile := strings.Join([]string{"./statistical/chart-", fmt.Sprintf("%v", time.Now().UnixNano()), ".png"}, "")
-	f, _ := os.Create(nameFile)
-	defer func(f *os.File) {
-		err = f.Close()
-		if err != nil {
-			return
-		}
-	}(f)
-	err = graph.Render(chart.PNG, f)
+	var buf bytes.Buffer
+	err = graph.Render(chart.PNG, &buf)
 	if err != nil {
 		return "", err
 	}
-	return nameFile, nil
+
+	// Encode as base64.
+	return base64.StdEncoding.EncodeToString(buf.Bytes()), nil
 }

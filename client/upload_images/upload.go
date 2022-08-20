@@ -8,8 +8,6 @@ import (
 	"io/ioutil"
 	"mime/multipart"
 	"net/http"
-	"os"
-	"path/filepath"
 
 	"github.com/sirupsen/logrus"
 	"topsis/client/model"
@@ -24,18 +22,7 @@ func UploadImage(params *model.ParamUploadImage) (*model.ImageInfo, error) {
 
 	payload := &bytes.Buffer{}
 	writer := multipart.NewWriter(payload)
-	file, errFile := os.Open(params.Path)
-	defer func(file *os.File) {
-		err := file.Close()
-		if err != nil {
-			return
-		}
-	}(file)
-	part, errFile := writer.CreateFormFile("source", filepath.Base(params.Path))
-	_, errFile = io.Copy(part, file)
-	if errFile != nil {
-		return nil, errFile
-	}
+	_ = writer.WriteField("source", params.Base64StringImage)
 	_ = writer.WriteField("key", params.ApiKey)
 	err := writer.Close()
 	if err != nil {

@@ -143,16 +143,17 @@ func (b *BotNotify) ProcessNotifySummary() error {
 }
 
 func (b *BotNotify) ProcessNotifyStatistical() error {
-	nameFile, err := b.statisticalDomain.GetNameFilePath(map[string]interface{}{
-		"time_chart": strings.Join([]string{time.Now().Month().String(), fmt.Sprintf("%v", time.Now().Year())}, "-"),
+	timeChart := strings.Join([]string{time.Now().Month().String(), fmt.Sprintf("%v", time.Now().Year())}, "-")
+	base64StringImage, err := b.statisticalDomain.GetBase64StringChart(map[string]interface{}{
+		"time_chart": timeChart,
 	})
 	if err != nil {
 		return err
 	}
 
 	imageInfo, err := upload_images.UploadImage(&model.ParamUploadImage{
-		Path:   nameFile,
-		ApiKey: b.cfg.ApiKeyUploadImage,
+		Base64StringImage: base64StringImage,
+		ApiKey:            b.cfg.ApiKeyUploadImage,
 	})
 	if err != nil {
 		logrus.Errorf("get weather information from open-weather fail %v", err)
@@ -165,7 +166,7 @@ func (b *BotNotify) ProcessNotifyStatistical() error {
 	}
 
 	message := &model.SlackMessage{
-		Text:        "Statistical Chart",
+		Text:        strings.Join([]string{"Statistical Chart", timeChart}, " "),
 		IconEmoji:   client.DefaultEmoji,
 		Attachments: textMessage.ToAttachment(),
 	}
