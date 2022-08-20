@@ -1,8 +1,8 @@
 package model
 
 type ParamUploadImage struct {
-	Path   string `json:"path"`
-	ApiKey string `json:"apiKey"`
+	Base64StringImage string `json:"base_64_string_image"`
+	ApiKey            string `json:"api_key"`
 }
 
 type ImageInfo struct {
