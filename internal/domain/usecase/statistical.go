@@ -59,16 +59,16 @@ func (s *StatisticalDomain) UpsertStatistical(records []*model.ChartInfo) error 
 	})
 }
 
-func (s *StatisticalDomain) GetBase64StringChart(queries map[string]interface{}) (string, error) {
+func (s *StatisticalDomain) GetBase64StringChart(queries map[string]interface{}) (string, float64, error) {
 	statistical, err := s.statisticalRepo.GetByQueries(queries)
 	if err != nil {
-		return "", err
+		return "", 0, err
 	}
 
-	chartInfo := make([]*model.ChartInfo, 0)
+	chartInfo, sumKilometers := make([]*model.ChartInfo, 0), float64(0)
 	err = json.Unmarshal([]byte(statistical.Metadata), &chartInfo)
 	if err != nil {
-		return "", err
+		return "", 0, err
 	}
 
 	// Generate chart
@@ -88,15 +88,16 @@ func (s *StatisticalDomain) GetBase64StringChart(queries map[string]interface{})
 			Label: value.Day,
 			Value: value.Value,
 		})
+		sumKilometers += value.Value
 	}
 	graph.Bars = bars
 
 	var buf bytes.Buffer
 	err = graph.Render(chart.PNG, &buf)
 	if err != nil {
-		return "", err
+		return "", 0, err
 	}
 
 	// Encode as base64.
-	return base64.StdEncoding.EncodeToString(buf.Bytes()), nil
+	return base64.StdEncoding.EncodeToString(buf.Bytes()), sumKilometers, nil
 }
