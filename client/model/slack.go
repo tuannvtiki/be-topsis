@@ -27,12 +27,16 @@ type TextMessageNotifyRun struct {
 }
 
 type TextMessageNotifySummary struct {
-	CurrentTime  string `json:"currentTime"`
-	Distance     string `json:"distance"`
-	MovingTime   string `json:"moving_time"`
-	AverageSpeed string `json:"average_speed"`
-	MaxSpeed     string `json:"max_speed"`
-	Note         string `json:"note"`
+	CurrentTime      string `json:"currentTime"`
+	SportType        string `json:"sport_type"`
+	Name             string `json:"name"`
+	Distance         string `json:"distance"`
+	MovingTime       string `json:"moving_time"`
+	AverageSpeed     string `json:"average_speed"`
+	MaxSpeed         string `json:"max_speed"`
+	AverageHeartrate string `json:"average_heartrate"`
+	MaxHeartrate     string `json:"max_heartrate"`
+	Note             string `json:"note"`
 }
 
 type TextMessageNotifyStatistical struct {
@@ -84,13 +88,18 @@ func (s *TextMessageNotifySummary) ToAttachment() []*Attachment {
 	})
 	fields = append(fields, Field{
 		Short: true,
-		Title: "Kilometers",
-		Value: s.Distance,
+		Title: "Sport Type",
+		Value: s.SportType,
 	})
 	fields = append(fields, Field{
 		Short: true,
-		Title: "Moving Time",
-		Value: s.MovingTime,
+		Title: "Name",
+		Value: s.Name,
+	})
+	fields = append(fields, Field{
+		Short: true,
+		Title: "Kilometers",
+		Value: s.Distance,
 	})
 	fields = append(fields, Field{
 		Short: true,
@@ -101,6 +110,21 @@ func (s *TextMessageNotifySummary) ToAttachment() []*Attachment {
 		Short: true,
 		Title: "Max Speed",
 		Value: s.MaxSpeed,
+	})
+	fields = append(fields, Field{
+		Short: true,
+		Title: "Average Heartrate",
+		Value: s.AverageHeartrate,
+	})
+	fields = append(fields, Field{
+		Short: true,
+		Title: "Max Heartrate",
+		Value: s.MaxHeartrate,
+	})
+	fields = append(fields, Field{
+		Short: true,
+		Title: "Moving Time",
+		Value: s.MovingTime,
 	})
 	fields = append(fields, Field{
 		Short: true,

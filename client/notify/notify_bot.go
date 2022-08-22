@@ -99,12 +99,16 @@ func (b *BotNotify) ProcessNotifySummary() error {
 			continue
 		}
 		textMessage := &model.TextMessageNotifySummary{
-			CurrentTime:  time.Now().Format(FormatDateTime),
-			Distance:     fmt.Sprintf("%v km", math.Round((activity.Distance/float64(1000))*100)/100),
-			MovingTime:   time.Duration(activity.MovingTime * 1000000000).String(),
-			AverageSpeed: fmt.Sprintf("%.2f km/h", activity.AverageSpeed*60*60/float64(1000)),
-			MaxSpeed:     fmt.Sprintf("%.2f km/h", activity.MaxSpeed*60*60/float64(1000)),
-			Note:         fmt.Sprintf("Chúc mừng bạn đã hoàn thành mục tiêu chạy %v km ngày hôm qua %v nhé", distanceGoal, time.Now().AddDate(0, 0, -1).Format(FormatDate)),
+			CurrentTime:      time.Now().Format(FormatDateTime),
+			SportType:        activity.SportType,
+			Name:             activity.Name,
+			Distance:         fmt.Sprintf("%v km", math.Round((activity.Distance/float64(1000))*100)/100),
+			MovingTime:       time.Duration(activity.MovingTime * 1000000000).String(),
+			AverageSpeed:     fmt.Sprintf("%.2f km/h", activity.AverageSpeed*60*60/float64(1000)),
+			MaxSpeed:         fmt.Sprintf("%.2f km/h", activity.MaxSpeed*60*60/float64(1000)),
+			AverageHeartrate: fmt.Sprintf("%.2f bpm", activity.AverageHeartrate),
+			MaxHeartrate:     fmt.Sprintf("%.2f bpm", activity.MaxHeartrate),
+			Note:             fmt.Sprintf("Chúc mừng bạn đã hoàn thành mục tiêu chạy %v km ngày hôm qua %v nhé", distanceGoal, time.Now().AddDate(0, 0, -1).Format(FormatDate)),
 		}
 		if activity.Distance < distanceGoal*1000 {
 			textMessage.Note = fmt.Sprintf("Bạn đã không hoàn thành mục tiêu chạy %v km ngày hôm qua %v rồi :sleepy: ", distanceGoal, time.Now().AddDate(0, 0, -1).Format(FormatDate))
