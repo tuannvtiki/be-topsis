@@ -121,6 +121,10 @@ func (b *BotNotify) ProcessNotifySummary() error {
 	}
 
 	if len(messageActives) == 0 {
+		chartsInfo = append(chartsInfo, &internalModel.ChartInfo{
+			Day:   timeChart,
+			Value: 0,
+		})
 		messageActives = append(messageActives, &model.TextMessageNotifySummary{
 			CurrentTime:  time.Now().Format(FormatDateTime),
 			Distance:     fmt.Sprintf("%v km", 0),
