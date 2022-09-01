@@ -151,7 +151,7 @@ func (b *BotNotify) ProcessNotifySummary() error {
 }
 
 func (b *BotNotify) ProcessNotifyStatistical() error {
-	timeChart := strings.Join([]string{time.Now().Month().String(), fmt.Sprintf("%v", time.Now().Year())}, "-")
+	timeChart := strings.Join([]string{(time.Now().Month() - 1).String(), fmt.Sprintf("%v", time.Now().Year())}, "-")
 	base64StringImage, sumKilometers, err := b.statisticalDomain.GetBase64StringChart(map[string]interface{}{
 		"time_chart": timeChart,
 	})
