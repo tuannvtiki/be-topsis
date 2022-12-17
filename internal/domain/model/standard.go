@@ -7,6 +7,7 @@ type Standard struct {
 	UserId       string `json:"user_id"`
 	StandardName string `json:"standard_name"`
 	Weight       int    `json:"weight"`
+	Type         string `json:"type"`
 }
 
 func (s *Standard) ToResponse() *model.StandardResponse {

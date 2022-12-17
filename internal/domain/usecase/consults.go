@@ -12,6 +12,11 @@ import (
 	"topsis/internal/domain/repository"
 )
 
+const (
+	MaxMax = "max-max" // as big as possible
+	MinMax = "min-max" // as small as possible
+)
+
 type ConsultDomain struct {
 	userRepo        repository.UserRepositoryInterface
 	standardRepo    repository.StandardRepositoryInterface
@@ -34,6 +39,7 @@ func (c *ConsultDomain) Consult(ctx context.Context, userId string) ([]*model.Co
 	var (
 		wg               sync.WaitGroup
 		weights          []float64
+		types            []string
 		matrix           [][]float64
 		listName         []string
 		bestAlternative  []float64
@@ -57,7 +63,7 @@ func (c *ConsultDomain) Consult(ctx context.Context, userId string) ([]*model.Co
 			return
 		}
 		// Parse weight
-		weights = ParseWeight(standards)
+		weights, types = ParseWeight(standards)
 	}()
 
 	// Get list score ratings
@@ -92,7 +98,7 @@ func (c *ConsultDomain) Consult(ctx context.Context, userId string) ([]*model.Co
 	matrix = CalculateTheWeighted(matrix, weights)
 
 	// Step 4: Determine the worst alternative and the best alternative
-	bestAlternative, worstAlternative = GetBestAndWorst(matrix)
+	bestAlternative, worstAlternative = GetBestAndWorst(matrix, types)
 
 	// Step 5: Calculate the L2-distance between the target alternative and the worst condition
 	bestDistance, worstDistance = CalculateDistance(matrix, bestAlternative, worstAlternative)
@@ -103,11 +109,12 @@ func (c *ConsultDomain) Consult(ctx context.Context, userId string) ([]*model.Co
 	return ConvertToListConsultResult(similarity, listName), nil
 }
 
-func ParseWeight(standards []*model.Standard) (weights []float64) {
+func ParseWeight(standards []*model.Standard) (weights []float64, types []string) {
 	for _, value := range standards {
 		weights = append(weights, float64(value.Weight))
+		types = append(types, value.Type)
 	}
-	return weights
+	return weights, types
 }
 
 func ParseMetadata(scoreRatings []*model.ScoreRating) (matrix [][]float64, listName []string, err error) {
@@ -163,7 +170,7 @@ func CalculateTheWeighted(matrix [][]float64, weights []float64) [][]float64 {
 	return matrix
 }
 
-func GetBestAndWorst(matrix [][]float64) (bestAlternative, worstAlternative []float64) {
+func GetBestAndWorst(matrix [][]float64, types []string) (bestAlternative, worstAlternative []float64) {
 	var listColumns [][]float64
 	for col := 0; col < len(matrix[0]); col++ {
 		var columns []float64
@@ -173,9 +180,14 @@ func GetBestAndWorst(matrix [][]float64) (bestAlternative, worstAlternative []fl
 		listColumns = append(listColumns, columns)
 	}
 
-	for _, value := range listColumns {
-		bestAlternative = append(bestAlternative, helper.FindMax(value))
-		worstAlternative = append(worstAlternative, helper.FindMin(value))
+	for index, value := range listColumns {
+		if types[index] == MaxMax {
+			bestAlternative = append(bestAlternative, helper.FindMax(value))
+			worstAlternative = append(worstAlternative, helper.FindMin(value))
+		} else {
+			bestAlternative = append(bestAlternative, helper.FindMin(value))
+			worstAlternative = append(worstAlternative, helper.FindMax(value))
+		}
 	}
 	return bestAlternative, worstAlternative
 }

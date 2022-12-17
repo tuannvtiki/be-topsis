@@ -20,7 +20,7 @@ func (s *StandardRepository) CreateStandard(ctx context.Context, standard *model
 	if err := standard.Model.GenerateID(); err != nil {
 		return nil, err
 	}
-	if err := s.db.Create(&standard).Error; err != nil {
+	if err := s.db.WithContext(ctx).Create(&standard).Error; err != nil {
 		return nil, err
 	}
 	return standard, nil
@@ -28,7 +28,7 @@ func (s *StandardRepository) CreateStandard(ctx context.Context, standard *model
 
 func (s *StandardRepository) GetStandardByQueries(ctx context.Context, queries map[string]interface{}) ([]*model.Standard, error) {
 	var result []*model.Standard
-	if err := s.db.Where(queries).Find(&result).Error; err != nil {
+	if err := s.db.WithContext(ctx).Where(queries).Find(&result).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, nil
 		}
@@ -37,5 +37,5 @@ func (s *StandardRepository) GetStandardByQueries(ctx context.Context, queries m
 	return result, nil
 }
 func (s *StandardRepository) DeleteStandardByQueries(ctx context.Context, queries map[string]interface{}) error {
-	return s.db.Where(queries).Delete(&model.Standard{}).Error
+	return s.db.WithContext(ctx).Where(queries).Delete(&model.Standard{}).Error
 }
