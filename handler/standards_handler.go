@@ -71,7 +71,7 @@ func (h *Handler) GetStandards(c *gin.Context) {
 	}
 
 	logrus.Info("Get list standard success")
-	var res []*model.StandardResponse
+	res := make([]*model.StandardResponse, 0)
 	for _, s := range standards {
 		res = append(res, s.ToResponse())
 	}

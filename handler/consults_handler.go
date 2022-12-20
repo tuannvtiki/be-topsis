@@ -26,7 +26,7 @@ func (h *Handler) Consult(c *gin.Context) {
 	}
 
 	logrus.Info("Consult result success")
-	var res []*model.ConsultResponse
+	res := make([]*model.ConsultResponse, 0)
 	for _, value := range result {
 		res = append(res, value.ToResponse())
 	}

@@ -25,6 +25,7 @@ func (s *StandardDomain) CreateStandard(ctx context.Context, standardRequest *mo
 		UserId:       standardRequest.UserID,
 		StandardName: standardRequest.StandardName,
 		Weight:       standardRequest.Weight,
+		Type:         standardRequest.Type,
 	})
 }
 

@@ -72,7 +72,7 @@ func (h *Handler) GetScoreRatings(c *gin.Context) {
 	}
 
 	logrus.Info("Get list score rating success")
-	var res []*model.ScoreRatingResponse
+	res := make([]*model.ScoreRatingResponse, 0)
 	for _, value := range result {
 		res = append(res, &model.ScoreRatingResponse{
 			ID:       value.ID,
