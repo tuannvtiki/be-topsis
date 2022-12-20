@@ -2,6 +2,11 @@ package model
 
 import "topsis/handler/model"
 
+const (
+	MaxMax = "max-max" // as big as possible
+	MinMax = "min-max" // as small as possible
+)
+
 type Standard struct {
 	Model
 	UserId       string `json:"user_id"`
@@ -16,5 +21,17 @@ func (s *Standard) ToResponse() *model.StandardResponse {
 		UserID:       s.UserId,
 		StandardName: s.StandardName,
 		Weight:       s.Weight,
+		Type:         s.convertType(),
 	}
+}
+
+func (s *Standard) convertType() string {
+	if s.Type == MaxMax {
+		return "as big as possible"
+	}
+	if s.Type == MinMax {
+		return "as small as possible"
+	}
+
+	return s.Type
 }
