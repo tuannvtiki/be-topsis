@@ -8,9 +8,9 @@ type ConsultResult struct {
 }
 
 type MetadataScoreRating struct {
-	Name         string `json:"name"`
-	StandardName string `json:"standard_name"`
-	Score        int    `json:"score"`
+	Name         string  `json:"name"`
+	StandardName string  `json:"standard_name"`
+	Score        float64 `json:"score"`
 }
 
 func (c *ConsultResult) ToResponse() *model.ConsultResponse {

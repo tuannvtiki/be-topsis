@@ -126,7 +126,7 @@ func ParseMetadata(scoreRatings []*model.ScoreRating) (matrix [][]float64, listN
 		}
 		var score []float64
 		for _, v := range metadataStruct {
-			score = append(score, float64(v.Score))
+			score = append(score, v.Score)
 		}
 		matrix = append(matrix, score)
 		if len(metadataStruct) > 0 {
