@@ -9,11 +9,11 @@ import (
 )
 
 type ScoreRatingDomain struct {
-	scoreRatingRepo repository.ScoreRatingRepositoryInterface
+	scoreRatingRepo repository.IScoreRatingRepositoryInterface
 }
 
 func NewScoreRatingDomain(
-	scoreRatingRepo repository.ScoreRatingRepositoryInterface,
+	scoreRatingRepo repository.IScoreRatingRepositoryInterface,
 ) *ScoreRatingDomain {
 	return &ScoreRatingDomain{
 		scoreRatingRepo: scoreRatingRepo,

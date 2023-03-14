@@ -16,11 +16,11 @@ import (
 )
 
 type StatisticalDomain struct {
-	statisticalRepo repository.StatisticalRepositoryInterface
+	statisticalRepo repository.IStatisticalRepositoryInterface
 }
 
 func NewStatisticalDomain(
-	statisticalRepo repository.StatisticalRepositoryInterface,
+	statisticalRepo repository.IStatisticalRepositoryInterface,
 ) *StatisticalDomain {
 	return &StatisticalDomain{
 		statisticalRepo: statisticalRepo,

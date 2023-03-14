@@ -6,7 +6,9 @@ import (
 	"topsis/internal/domain/model"
 )
 
-type ScoreRatingRepositoryInterface interface {
+//go:generate mockgen -package=repository -destination=iscore_ratings_mock.go -source=iscore_ratings.go
+
+type IScoreRatingRepositoryInterface interface {
 	BulkCreateScoreRating(ctx context.Context, scoreRatings []*model.ScoreRating) error
 	GetScoreRatingByListQueries(ctx context.Context, queries map[string]interface{}, sort []string) ([]*model.ScoreRating, error)
 	UpdateScoreRatingWithMap(ctx context.Context, scoreRating *model.ScoreRating, data map[string]interface{}) error

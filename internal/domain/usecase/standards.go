@@ -9,11 +9,11 @@ import (
 )
 
 type StandardDomain struct {
-	standardRepo repository.StandardRepositoryInterface
+	standardRepo repository.IStandardRepositoryInterface
 }
 
 func NewStandardDomain(
-	standardRepo repository.StandardRepositoryInterface,
+	standardRepo repository.IStandardRepositoryInterface,
 ) *StandardDomain {
 	return &StandardDomain{
 		standardRepo: standardRepo,

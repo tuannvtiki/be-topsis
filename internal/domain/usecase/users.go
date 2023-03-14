@@ -8,11 +8,11 @@ import (
 )
 
 type UserDomain struct {
-	userRepo repository.UserRepositoryInterface
+	userRepo repository.IUserRepositoryInterface
 }
 
 func NewUserDomain(
-	userRepo repository.UserRepositoryInterface,
+	userRepo repository.IUserRepositoryInterface,
 ) *UserDomain {
 	return &UserDomain{
 		userRepo: userRepo,

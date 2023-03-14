@@ -18,15 +18,15 @@ const (
 )
 
 type ConsultDomain struct {
-	userRepo        repository.UserRepositoryInterface
-	standardRepo    repository.StandardRepositoryInterface
-	scoreRatingRepo repository.ScoreRatingRepositoryInterface
+	userRepo        repository.IUserRepositoryInterface
+	standardRepo    repository.IStandardRepositoryInterface
+	scoreRatingRepo repository.IScoreRatingRepositoryInterface
 }
 
 func NewConsultDomain(
-	userRepo repository.UserRepositoryInterface,
-	standardRepo repository.StandardRepositoryInterface,
-	scoreRatingRepo repository.ScoreRatingRepositoryInterface,
+	userRepo repository.IUserRepositoryInterface,
+	standardRepo repository.IStandardRepositoryInterface,
+	scoreRatingRepo repository.IScoreRatingRepositoryInterface,
 ) *ConsultDomain {
 	return &ConsultDomain{
 		userRepo:        userRepo,
