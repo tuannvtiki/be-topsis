@@ -37,7 +37,7 @@ func TestStandardDomain_CreateStandard(t *testing.T) {
 		wantErr assert.ErrorAssertionFunc
 	}{
 		{
-			name: "happy_case",
+			name: modelDomain.HappyCase,
 			fields: fields{
 				standardRepo: standardRepo,
 			},
@@ -90,7 +90,7 @@ func TestStandardDomain_GetStandards(t *testing.T) {
 		wantErr assert.ErrorAssertionFunc
 	}{
 		{
-			name:   "happy_case",
+			name:   modelDomain.HappyCase,
 			fields: fields{standardRepo: standardRepo},
 			args: args{
 				ctx:      context.Background(),
@@ -140,7 +140,7 @@ func TestStandardDomain_DeleteStandard(t *testing.T) {
 		wantErr assert.ErrorAssertionFunc
 	}{
 		{
-			name:   "happy_case",
+			name:   modelDomain.HappyCase,
 			fields: fields{standardRepo: standardRepo},
 			args: args{
 				ctx:      context.Background(),
