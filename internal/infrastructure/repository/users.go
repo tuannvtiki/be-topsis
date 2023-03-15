@@ -19,7 +19,7 @@ func (u *UserRepository) CreateUser(ctx context.Context, user *model.User) (*mod
 	if err := user.Model.GenerateID(); err != nil {
 		return nil, err
 	}
-	if err := u.db.Create(&user).Error; err != nil {
+	if err := u.db.WithContext(ctx).Create(&user).Error; err != nil {
 		return nil, err
 	}
 	return user, nil
