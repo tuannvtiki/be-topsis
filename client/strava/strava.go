@@ -72,6 +72,9 @@ func GetStravaActivityInfo(params *model.ParamStrava) ([]*model.StravaActivity, 
 	logrus.Info("Get strava activity information")
 
 	stravaToken, err := GetStravaTokenInfo(UrlGetStravaToken, params)
+	if err != nil {
+		return nil, err
+	}
 	req, err := http.NewRequest("GET", UrlGetStravaActivity, nil)
 	if err != nil {
 		return nil, err

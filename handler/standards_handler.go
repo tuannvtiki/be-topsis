@@ -49,7 +49,6 @@ func (h *Handler) CreateStandard(c *gin.Context) {
 		StandardName: standardCreated.StandardName,
 		Weight:       standardCreated.Weight,
 	})
-	return
 }
 
 func (h *Handler) GetStandards(c *gin.Context) {
@@ -76,7 +75,6 @@ func (h *Handler) GetStandards(c *gin.Context) {
 		res = append(res, s.ToResponse())
 	}
 	c.JSON(http.StatusOK, res)
-	return
 }
 
 func (h *Handler) DeleteStandard(c *gin.Context) {
@@ -102,5 +100,4 @@ func (h *Handler) DeleteStandard(c *gin.Context) {
 		Id:     id,
 		Status: model.SUCCESS,
 	})
-	return
 }

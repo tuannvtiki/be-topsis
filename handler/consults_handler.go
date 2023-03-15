@@ -31,5 +31,4 @@ func (h *Handler) Consult(c *gin.Context) {
 		res = append(res, value.ToResponse())
 	}
 	c.JSON(http.StatusOK, res)
-	return
 }

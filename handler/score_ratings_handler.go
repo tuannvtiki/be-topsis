@@ -50,7 +50,6 @@ func (h *Handler) BulkCreateScoreRating(c *gin.Context) {
 		Type:   "Bulk create",
 		Status: model.SUCCESS,
 	})
-	return
 }
 
 func (h *Handler) GetScoreRatings(c *gin.Context) {
@@ -80,7 +79,6 @@ func (h *Handler) GetScoreRatings(c *gin.Context) {
 		})
 	}
 	c.JSON(http.StatusOK, res)
-	return
 }
 
 func (h *Handler) UpdateScoreRating(c *gin.Context) {
@@ -116,7 +114,6 @@ func (h *Handler) UpdateScoreRating(c *gin.Context) {
 		Id:     scoreRatingRequest.ID,
 		Status: model.SUCCESS,
 	})
-	return
 }
 
 func (h *Handler) DeleteScoreRating(c *gin.Context) {
@@ -142,5 +139,4 @@ func (h *Handler) DeleteScoreRating(c *gin.Context) {
 		Id:     id,
 		Status: model.SUCCESS,
 	})
-	return
 }

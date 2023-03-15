@@ -93,6 +93,9 @@ func (b *BotNotify) ProcessNotifySummary() error {
 	}
 
 	distanceGoal, err := strconv.ParseFloat(b.cfg.DistanceGoal, 64)
+	if err != nil {
+		return err
+	}
 	timeChart, messageActives, chartsInfo := time.Now().AddDate(0, 0, -1).Format(FormatDate), make([]*model.TextMessageNotifySummary, 0), make([]*internalModel.ChartInfo, 0)
 	for _, activity := range stravaActivities {
 		if timeChart != activity.StartDateLocal.Format(FormatDate) {
@@ -136,6 +139,9 @@ func (b *BotNotify) ProcessNotifySummary() error {
 	}
 
 	err = b.statisticalDomain.UpsertStatistical(chartsInfo)
+	if err != nil {
+		return err
+	}
 	for _, messageActivity := range messageActives {
 		message := &model.SlackMessage{
 			Text:        "Activity Information",

@@ -48,5 +48,4 @@ func (h *Handler) CreateUser(c *gin.Context) {
 		ID:   userCreated.ID,
 		Name: userCreated.Name,
 	})
-	return
 }
