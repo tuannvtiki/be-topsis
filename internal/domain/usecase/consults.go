@@ -14,7 +14,7 @@ import (
 
 const (
 	MaxMax = "max-max" // as big as possible
-	//MinMax = "min-max" // as small as possible
+	MinMax = "min-max" // as small as possible
 )
 
 type ConsultDomain struct {
