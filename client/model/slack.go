@@ -1,5 +1,11 @@
 package model
 
+import "fmt"
+
+const (
+	FormatTextLinkSlack = "<%s|%s>"
+)
+
 type Field struct {
 	Short bool   `json:"short"`
 	Title string `json:"title"`
@@ -41,6 +47,14 @@ type TextMessageNotifySummary struct {
 
 type TextMessageNotifyStatistical struct {
 	ImageUrl string `json:"image_url"`
+}
+
+type TextMessageDailyCodingChallenge struct {
+	Date       string `json:"date"`
+	Difficulty string `json:"difficulty"`
+	TopicTags  string `json:"topic_tags"`
+	Link       string `json:"link"`
+	Title      string `json:"title"`
 }
 
 func (s *TextMessageNotifyRun) ToAttachment() []*Attachment {
@@ -137,4 +151,30 @@ func (s *TextMessageNotifySummary) ToAttachment() []*Attachment {
 
 func (s *TextMessageNotifyStatistical) ToAttachment() []*Attachment {
 	return []*Attachment{{ImageUrl: s.ImageUrl}}
+}
+
+func (s *TextMessageDailyCodingChallenge) ToAttachment() []*Attachment {
+	fields := make([]Field, 0)
+	fields = append(fields, Field{
+		Short: true,
+		Title: "Date",
+		Value: s.Date,
+	})
+	fields = append(fields, Field{
+		Short: true,
+		Title: "Difficulty",
+		Value: s.Difficulty,
+	})
+	fields = append(fields, Field{
+		Short: true,
+		Title: "Topic Tags",
+		Value: s.TopicTags,
+	})
+	fields = append(fields, Field{
+		Short: true,
+		Title: "Link",
+		Value: fmt.Sprintf(FormatTextLinkSlack, s.Link, s.Title),
+	})
+
+	return []*Attachment{{Fields: fields}}
 }

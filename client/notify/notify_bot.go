@@ -10,6 +10,7 @@ import (
 
 	"github.com/sirupsen/logrus"
 	"topsis/client"
+	"topsis/client/leetcode"
 	"topsis/client/model"
 	"topsis/client/strava"
 	"topsis/client/upload_images"
@@ -23,6 +24,7 @@ type ProcessNotifyBotInterface interface {
 	ProcessNotifyRun() error
 	ProcessNotifySummary() error
 	ProcessNotifyStatistical() error
+	ProcessNotifyDailyLeetCodingChallenge() error
 }
 
 const (
@@ -185,4 +187,23 @@ func (b *BotNotify) ProcessNotifyStatistical() error {
 		Attachments: textMessage.ToAttachment(),
 	}
 	return client.SendMessageSlack(b.cfg.WebhookSlack, message)
+}
+
+func (b *BotNotify) ProcessNotifyDailyLeetCodingChallenge() error {
+	dailyCodingChallenge, err := leetcode.GetDailyCodingChallenge(model.URLGraphql, &model.ParamDailyCodingChallenge{
+		Payload: model.Payload,
+	})
+	if err != nil {
+		logrus.Errorf("get daily leetcoding challenge information from leetcode.com fail %v", err)
+		return err
+	}
+
+	textMsgDailyCodingChallenge := dailyCodingChallenge.ToTextMessageDailyCodingChallenge()
+
+	message := &model.SlackMessage{
+		Text:        fmt.Sprintf(model.FormatTextLeetCode, b.cfg.TagsSlackLeetCode, "This is the leetcoding challenge for today: "+dailyCodingChallenge.Data.ActiveDailyCodingChallengeQuestion.Question.Title),
+		Attachments: textMsgDailyCodingChallenge.ToAttachment(),
+	}
+
+	return client.SendMessageSlack(b.cfg.WebhookSlackLeetCode, message)
 }

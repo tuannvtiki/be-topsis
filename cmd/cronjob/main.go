@@ -61,6 +61,11 @@ func main() {
 		if err != nil {
 			logrus.Warnf("send message for summary is failed %v", err)
 		}
+
+		err = notifyBot.ProcessNotifyDailyLeetCodingChallenge()
+		if err != nil {
+			logrus.Warnf("send message for daily leetcoding challenge is failed %v", err)
+		}
 	})
 
 	// Notify statistical on day-of-month 1
