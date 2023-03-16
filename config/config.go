@@ -12,6 +12,8 @@ type Config struct {
 	Port                  string `mapstructure:"PORT"`
 	AppID                 string `mapstructure:"APP_ID"`
 	WebhookSlack          string `mapstructure:"WEBHOOK_SLACK"`
+	WebhookSlackLeetCode  string `mapstructure:"WEBHOOK_SLACK_LEETCODE"`
+	TagsSlackLeetCode     string `mapstructure:"TAGS_SLACK_LEETCODE"`
 	ClientId              string `mapstructure:"CLIENT_ID"`
 	ClientSecret          string `mapstructure:"CLIENT_SECRET"`
 	RefreshToken          string `mapstructure:"REFRESH_TOKEN"`
@@ -52,6 +54,8 @@ func LoadConfig(path string) (*Config, error) {
 		config.DBSource = os.Getenv("DB_SOURCE")
 		config.AppID = os.Getenv("APP_ID")
 		config.WebhookSlack = os.Getenv("WEBHOOK_SLACK")
+		config.WebhookSlack = os.Getenv("WEBHOOK_SLACK_LEETCODE")
+		config.TagsSlackLeetCode = os.Getenv("TAGS_SLACK_LEETCODE")
 		config.ClientId = os.Getenv("CLIENT_ID")
 		config.ClientSecret = os.Getenv("CLIENT_SECRET")
 		config.RefreshToken = os.Getenv("REFRESH_TOKEN")
