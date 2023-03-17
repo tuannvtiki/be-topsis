@@ -9,6 +9,16 @@ import (
 	"topsis/handler/model"
 )
 
+// CreateStandard
+// @Summary creates the standard attribute
+// @Description creates the standard attribute
+// @Tags standards
+// @Accept json
+// @Produce json
+// @Param request body model.StandardRequest true "standard request"
+// @Success 200 {object} model.StandardResponse
+// @Failure 400 {object} model.ErrorSystem
+// @Router /v1/api/standards [post]
 func (h *Handler) CreateStandard(c *gin.Context) {
 	logrus.Info("Start api create standard...")
 
@@ -51,6 +61,16 @@ func (h *Handler) CreateStandard(c *gin.Context) {
 	})
 }
 
+// GetStandards
+// @Summary gets the standard attribute
+// @Description gets the standard attribute
+// @Tags standards
+// @Accept json
+// @Produce json
+// @Param user_id query string false "user_id"
+// @Success 200 {object} []model.StandardResponse
+// @Failure 400 {object} model.ErrorSystem
+// @Router /v1/api/standards/:user_id [get]
 func (h *Handler) GetStandards(c *gin.Context) {
 	logrus.Info("Start api get list standard...")
 
@@ -77,6 +97,16 @@ func (h *Handler) GetStandards(c *gin.Context) {
 	c.JSON(http.StatusOK, res)
 }
 
+// DeleteStandard
+// @Summary deletes the standard attribute
+// @Description deletes the standard attribute
+// @Tags standards
+// @Accept json
+// @Produce json
+// @Param id query string false "id"
+// @Success 200 {object} []model.DeletedResponse
+// @Failure 400 {object} model.ErrorSystem
+// @Router /v1/api/standards/:id [delete]
 func (h *Handler) DeleteStandard(c *gin.Context) {
 	logrus.Info("Start api delete standard...")
 

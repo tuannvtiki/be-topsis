@@ -5,17 +5,19 @@ import (
 	"os"
 	"time"
 
-	"topsis/config"
-	"topsis/handler"
-	"topsis/internal/domain/usecase"
-	"topsis/internal/infrastructure/repository"
-
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
+	swaggerFiles "github.com/swaggo/files"
+	"github.com/swaggo/gin-swagger"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
+	"topsis/config"
+	_ "topsis/docs"
+	"topsis/handler"
+	"topsis/internal/domain/usecase"
+	"topsis/internal/infrastructure/repository"
 )
 
 func main() {
@@ -90,6 +92,10 @@ func initRoutes(cfg *config.Config, userDomain *usecase.UserDomain, standardDoma
 		// API Consult
 		api.POST("/consult/:user_id", h.Consult)
 	}
+
+	// swagger
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+
 	err := r.Run(":" + cfg.Port)
 	if err != nil {
 		return

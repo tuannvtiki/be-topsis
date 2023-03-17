@@ -10,6 +10,16 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
+// CreateUser
+// @Summary creates the user account
+// @Description creates the user account
+// @Tags users
+// @Accept json
+// @Produce json
+// @Param request body model.UserRequest true "user request"
+// @Success 200 {object} model.UserResponse
+// @Failure 400 {object} model.ErrorSystem
+// @Router /v1/api/users [post]
 func (h *Handler) CreateUser(c *gin.Context) {
 	logrus.Info("Start api create user...")
 

@@ -9,6 +9,16 @@ import (
 	"topsis/handler/model"
 )
 
+// Consult
+// @Summary consults to choose best option
+// @Description consults to choose best option
+// @Tags consult
+// @Accept json
+// @Produce json
+// @Param user_id query string false "user_id"
+// @Success 200 {object} []model.ConsultResponse
+// @Failure 400 {object} model.ErrorSystem
+// @Router /v1/api/consult/:user_id [post]
 func (h *Handler) Consult(c *gin.Context) {
 	logrus.Info("Start api consult...")
 

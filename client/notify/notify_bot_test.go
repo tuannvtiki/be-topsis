@@ -1,6 +1,7 @@
 package notify
 
 import (
+	"context"
 	"testing"
 
 	"topsis/config"
@@ -36,7 +37,7 @@ func TestBotNotify_ProcessNotifyDailyLeetCodingChallenge(t *testing.T) {
 				cfg:               tt.fields.cfg,
 				statisticalDomain: tt.fields.statisticalDomain,
 			}
-			if err := b.ProcessNotifyDailyLeetCodingChallenge(); (err != nil) != tt.wantErr {
+			if err := b.ProcessNotifyDailyLeetCodingChallenge(context.Background()); (err != nil) != tt.wantErr {
 				t.Errorf("ProcessNotifyDailyLeetCodingChallenge() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})

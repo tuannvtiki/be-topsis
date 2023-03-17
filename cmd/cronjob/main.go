@@ -1,15 +1,18 @@
 package main
 
 import (
+	"context"
 	"log"
 	"os"
 	"time"
 
+	"github.com/google/uuid"
 	"github.com/robfig/cron/v3"
 	"github.com/sirupsen/logrus"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
+	"topsis/client/constants"
 	"topsis/client/notify"
 	"topsis/config"
 	"topsis/internal/domain/usecase"
@@ -40,6 +43,9 @@ func main() {
 		log.Fatal("failed to open database:", err)
 		return
 	}
+
+	ctx := NewContext()
+
 	statisticalRepo := repository.NewStatisticalRepository(db)
 	statisticalDomain := usecase.NewStatisticalDomain(statisticalRepo)
 
@@ -49,30 +55,30 @@ func main() {
 
 	// Notify run at 17:30 every day
 	notifyRun, err := c.AddFunc(cfg.CronNotifyRun, func() {
-		err = notifyBot.ProcessNotifyRun()
+		err = notifyBot.ProcessNotifyRun(ctx)
 		if err != nil {
-			logrus.Warnf("send message for run is failed %v", err)
+			logrus.Warnf(constants.TaskErrorMessage, "ProcessNotifyRun", err)
 		}
 	})
 
 	// Notify summary 09:00 every day
 	notifySummary, err := c.AddFunc(cfg.CronNotifySummary, func() {
-		err = notifyBot.ProcessNotifySummary()
+		err = notifyBot.ProcessNotifySummary(ctx)
 		if err != nil {
-			logrus.Warnf("send message for summary is failed %v", err)
+			logrus.Warnf(constants.TaskErrorMessage, "ProcessNotifySummary", err)
 		}
 
-		err = notifyBot.ProcessNotifyDailyLeetCodingChallenge()
+		err = notifyBot.ProcessNotifyDailyLeetCodingChallenge(ctx)
 		if err != nil {
-			logrus.Warnf("send message for daily leetcoding challenge is failed %v", err)
+			logrus.Warnf(constants.TaskErrorMessage, "ProcessNotifyDailyLeetCodingChallenge", err)
 		}
 	})
 
 	// Notify statistical on day-of-month 1
 	notifyStatistical, err := c.AddFunc(cfg.CronNotifyStatistical, func() {
-		err = notifyBot.ProcessNotifyStatistical()
+		err = notifyBot.ProcessNotifyStatistical(ctx)
 		if err != nil {
-			logrus.Warnf("send message for statistical is failed %v", err)
+			logrus.Warnf(constants.TaskErrorMessage, "ProcessNotifyStatistical", err)
 		}
 	})
 	if err != nil {
@@ -85,4 +91,11 @@ func main() {
 	// Start cron with one scheduled job
 	logrus.Info("Start cron")
 	c.Run()
+}
+
+func NewContext() context.Context {
+	ctx := context.Background()
+	ctx = context.WithValue(ctx, constants.XRequestID, uuid.New().String())
+
+	return ctx
 }

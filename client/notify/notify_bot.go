@@ -1,6 +1,7 @@
 package notify
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"math"
@@ -10,6 +11,7 @@ import (
 
 	"github.com/sirupsen/logrus"
 	"topsis/client"
+	"topsis/client/constants"
 	"topsis/client/leetcode"
 	"topsis/client/model"
 	"topsis/client/strava"
@@ -20,11 +22,11 @@ import (
 	"topsis/internal/domain/usecase"
 )
 
-type ProcessNotifyBotInterface interface {
-	ProcessNotifyRun() error
-	ProcessNotifySummary() error
-	ProcessNotifyStatistical() error
-	ProcessNotifyDailyLeetCodingChallenge() error
+type INotifyBotInterface interface {
+	ProcessNotifyRun(ctx context.Context) error
+	ProcessNotifySummary(ctx context.Context) error
+	ProcessNotifyStatistical(ctx context.Context) error
+	ProcessNotifyDailyLeetCodingChallenge(ctx context.Context) error
 }
 
 const (
@@ -51,7 +53,9 @@ func NewBotNotify(cfg *config.Config, statisticalDomain *usecase.StatisticalDoma
 	}
 }
 
-func (b *BotNotify) ProcessNotifyRun() error {
+func (b *BotNotify) ProcessNotifyRun(ctx context.Context) error {
+	logrus.Infof(constants.BeginningTaskMessage, "ProcessNotifyRun", ctx.Value(constants.XRequestID))
+
 	weatherInfo, err := weather.GetWeatherInfo("https://openweathermap.org/data/2.5/onecall", &model.ParamOpenWeather{
 		Lat:     Latitude,
 		Lon:     Longitude,
@@ -69,7 +73,7 @@ func (b *BotNotify) ProcessNotifyRun() error {
 		Temperature: fmt.Sprintf("%v %v feels like %v %v", weatherInfo.Current.Temp, Celsius, weatherInfo.Current.FeelsLike, Celsius),
 		Weather:     weatherInfo.Current.Weather[0].Description,
 		IsRunning:   "Yes",
-		Note:        fmt.Sprintf("Hôm nay %v, trời không mưa nên chạy đi nhé", time.Now().Format(FormatDate)),
+		Note:        fmt.Sprintf("Hôm nay %v, trời không mưa nên ra ngoài thể dục, thể thao đi nhé", time.Now().Format(FormatDate)),
 	}
 	if weatherInfo.Current.Weather[0].Main == "Rain" {
 		textMessage.IsRunning = "No"
@@ -83,7 +87,7 @@ func (b *BotNotify) ProcessNotifyRun() error {
 	return client.SendMessageSlack(b.cfg.WebhookSlack, message)
 }
 
-func (b *BotNotify) ProcessNotifySummary() error {
+func (b *BotNotify) ProcessNotifySummary(ctx context.Context) error {
 	stravaActivities, err := strava.GetStravaActivityInfo(&model.ParamStrava{
 		ClientId:     b.cfg.ClientId,
 		ClientSecret: b.cfg.ClientSecret,
@@ -136,7 +140,7 @@ func (b *BotNotify) ProcessNotifySummary() error {
 			MovingTime:   "0h0m0s",
 			AverageSpeed: fmt.Sprintf("%v km/h", 0),
 			MaxSpeed:     fmt.Sprintf("%v km/h", 0),
-			Note:         fmt.Sprintf("Hôm qua %v, bạn không chạy à :rage:", time.Now().AddDate(0, 0, -1).Format(FormatDate)),
+			Note:         fmt.Sprintf("Hôm qua %v, bạn không thể dục, thể thao gì à :rage:", time.Now().AddDate(0, 0, -1).Format(FormatDate)),
 		})
 	}
 
@@ -158,7 +162,7 @@ func (b *BotNotify) ProcessNotifySummary() error {
 	return nil
 }
 
-func (b *BotNotify) ProcessNotifyStatistical() error {
+func (b *BotNotify) ProcessNotifyStatistical(ctx context.Context) error {
 	timeChart := strings.Join([]string{(time.Now().Month() - 1).String(), fmt.Sprintf("%v", time.Now().Year())}, "-")
 	base64StringImage, sumKilometers, err := b.statisticalDomain.GetBase64StringChart(map[string]interface{}{
 		"time_chart": timeChart,
@@ -189,7 +193,7 @@ func (b *BotNotify) ProcessNotifyStatistical() error {
 	return client.SendMessageSlack(b.cfg.WebhookSlack, message)
 }
 
-func (b *BotNotify) ProcessNotifyDailyLeetCodingChallenge() error {
+func (b *BotNotify) ProcessNotifyDailyLeetCodingChallenge(ctx context.Context) error {
 	dailyCodingChallenge, err := leetcode.GetDailyCodingChallenge(model.URLGraphql, &model.ParamDailyCodingChallenge{
 		Payload: model.Payload,
 	})

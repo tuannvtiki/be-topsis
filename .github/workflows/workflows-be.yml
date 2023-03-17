@@ -1,4 +1,4 @@
-name: Check lint
+name: prepare-before-merge
 
 on:
   push:

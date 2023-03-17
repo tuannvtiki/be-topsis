@@ -9,6 +9,16 @@ import (
 	"topsis/handler/model"
 )
 
+// BulkCreateScoreRating
+// @Summary bulk create the score rating
+// @Description bulk create the score rating
+// @Tags score-ratings
+// @Accept json
+// @Produce json
+// @Param request body model.ScoreRatingRequest true "score rating request"
+// @Success 200 {object} model.BulkCreateResponse
+// @Failure 400 {object} model.ErrorSystem
+// @Router /v1/api/score-ratings [post]
 func (h *Handler) BulkCreateScoreRating(c *gin.Context) {
 	logrus.Info("Start api bulk create score rating...")
 
@@ -52,6 +62,16 @@ func (h *Handler) BulkCreateScoreRating(c *gin.Context) {
 	})
 }
 
+// GetScoreRatings
+// @Summary gets the score rating
+// @Description gets the score rating
+// @Tags score-ratings
+// @Accept json
+// @Produce json
+// @Param user_id query string false "user_id"
+// @Success 200 {object} []model.ScoreRatingResponse
+// @Failure 400 {object} model.ErrorSystem
+// @Router /v1/api/score-ratings/:user_id [get]
 func (h *Handler) GetScoreRatings(c *gin.Context) {
 	logrus.Info("Start api get list score rating by user id...")
 
@@ -81,6 +101,16 @@ func (h *Handler) GetScoreRatings(c *gin.Context) {
 	c.JSON(http.StatusOK, res)
 }
 
+// UpdateScoreRating
+// @Summary updates the score rating
+// @Description updates the score rating
+// @Tags score-ratings
+// @Accept json
+// @Produce json
+// @Param request body model.ScoreRatingRequest true "score rating request"
+// @Success 200 {object} model.UpdateResponse
+// @Failure 400 {object} model.ErrorSystem
+// @Router /v1/api/score-ratings [put]
 func (h *Handler) UpdateScoreRating(c *gin.Context) {
 	logrus.Info("Start api update score rating...")
 
@@ -116,6 +146,16 @@ func (h *Handler) UpdateScoreRating(c *gin.Context) {
 	})
 }
 
+// DeleteScoreRating
+// @Summary deletes the score rating
+// @Description deletes the score rating
+// @Tags score-ratings
+// @Accept json
+// @Produce json
+// @Param id query string false "id"
+// @Success 200 {object} model.DeletedResponse
+// @Failure 400 {object} model.ErrorSystem
+// @Router /v1/api/score-ratings/:id [delete]
 func (h *Handler) DeleteScoreRating(c *gin.Context) {
 	logrus.Info("Start api delete score rating...")
 
