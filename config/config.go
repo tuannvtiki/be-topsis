@@ -54,7 +54,7 @@ func LoadConfig(path string) (*Config, error) {
 		config.DBSource = os.Getenv("DB_SOURCE")
 		config.AppID = os.Getenv("APP_ID")
 		config.WebhookSlack = os.Getenv("WEBHOOK_SLACK")
-		config.WebhookSlack = os.Getenv("WEBHOOK_SLACK_LEETCODE")
+		config.WebhookSlackLeetCode = os.Getenv("WEBHOOK_SLACK_LEETCODE")
 		config.TagsSlackLeetCode = os.Getenv("TAGS_SLACK_LEETCODE")
 		config.ClientId = os.Getenv("CLIENT_ID")
 		config.ClientSecret = os.Getenv("CLIENT_SECRET")
