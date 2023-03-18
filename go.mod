@@ -1,4 +1,4 @@
-module topsis
+module github.com/nguyenvantuan2391996/be-topsis
 
 // +heroku goVersion go1.18
 go 1.18

@@ -5,10 +5,10 @@ import (
 	"testing"
 
 	"github.com/golang/mock/gomock"
+	"github.com/nguyenvantuan2391996/be-topsis/internal/domain/model"
+	"github.com/nguyenvantuan2391996/be-topsis/internal/domain/repository"
 	"github.com/stretchr/testify/assert"
 	"gorm.io/gorm"
-	"topsis/internal/domain/model"
-	"topsis/internal/domain/repository"
 )
 
 func TestStatisticalDomain_UpsertStatistical_RecordNotFound_OK(t *testing.T) {

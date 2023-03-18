@@ -8,8 +8,8 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/nguyenvantuan2391996/be-topsis/client/model"
 	"github.com/sirupsen/logrus"
-	"topsis/client/model"
 )
 
 const (
