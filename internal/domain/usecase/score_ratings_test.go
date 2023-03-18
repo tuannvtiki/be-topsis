@@ -7,10 +7,10 @@ import (
 	"testing"
 
 	"github.com/golang/mock/gomock"
-	"github.com/nguyenvantuan2391996/be-topsis/handler/model"
-	modelDomain "github.com/nguyenvantuan2391996/be-topsis/internal/domain/model"
-	"github.com/nguyenvantuan2391996/be-topsis/internal/domain/repository"
 	"github.com/stretchr/testify/assert"
+	"topsis/handler/model"
+	modelDomain "topsis/internal/domain/model"
+	"topsis/internal/domain/repository"
 )
 
 func TestScoreRatingDomain_BulkCreateScoreRating(t *testing.T) {

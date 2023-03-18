@@ -9,17 +9,17 @@ import (
 	"strings"
 	"time"
 
-	"github.com/nguyenvantuan2391996/be-topsis/client"
-	"github.com/nguyenvantuan2391996/be-topsis/client/constants"
-	"github.com/nguyenvantuan2391996/be-topsis/client/leetcode"
-	"github.com/nguyenvantuan2391996/be-topsis/client/model"
-	"github.com/nguyenvantuan2391996/be-topsis/client/strava"
-	"github.com/nguyenvantuan2391996/be-topsis/client/upload_images"
-	"github.com/nguyenvantuan2391996/be-topsis/client/weather"
-	"github.com/nguyenvantuan2391996/be-topsis/config"
-	internalModel "github.com/nguyenvantuan2391996/be-topsis/internal/domain/model"
-	"github.com/nguyenvantuan2391996/be-topsis/internal/domain/usecase"
 	"github.com/sirupsen/logrus"
+	"topsis/client"
+	"topsis/client/constants"
+	"topsis/client/leetcode"
+	"topsis/client/model"
+	"topsis/client/strava"
+	"topsis/client/upload_images"
+	"topsis/client/weather"
+	"topsis/config"
+	internalModel "topsis/internal/domain/model"
+	"topsis/internal/domain/usecase"
 )
 
 type INotifyBotInterface interface {
@@ -88,7 +88,6 @@ func (b *BotNotify) ProcessNotifyRun(ctx context.Context) error {
 }
 
 func (b *BotNotify) ProcessNotifySummary(ctx context.Context) error {
-	logrus.Infof(constants.BeginningTaskMessage, "ProcessNotifySummary", ctx.Value(constants.XRequestID))
 	stravaActivities, err := strava.GetStravaActivityInfo(&model.ParamStrava{
 		ClientId:     b.cfg.ClientId,
 		ClientSecret: b.cfg.ClientSecret,
@@ -164,8 +163,6 @@ func (b *BotNotify) ProcessNotifySummary(ctx context.Context) error {
 }
 
 func (b *BotNotify) ProcessNotifyStatistical(ctx context.Context) error {
-	logrus.Infof(constants.BeginningTaskMessage, "ProcessNotifyStatistical", ctx.Value(constants.XRequestID))
-
 	timeChart := strings.Join([]string{(time.Now().Month() - 1).String(), fmt.Sprintf("%v", time.Now().Year())}, "-")
 	base64StringImage, sumKilometers, err := b.statisticalDomain.GetBase64StringChart(map[string]interface{}{
 		"time_chart": timeChart,
@@ -197,8 +194,6 @@ func (b *BotNotify) ProcessNotifyStatistical(ctx context.Context) error {
 }
 
 func (b *BotNotify) ProcessNotifyDailyLeetCodingChallenge(ctx context.Context) error {
-	logrus.Infof(constants.BeginningTaskMessage, "ProcessNotifyDailyLeetCodingChallenge", ctx.Value(constants.XRequestID))
-
 	dailyCodingChallenge, err := leetcode.GetDailyCodingChallenge(model.URLGraphql, &model.ParamDailyCodingChallenge{
 		Payload: model.Payload,
 	})

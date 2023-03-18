@@ -8,16 +8,16 @@ import (
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
-	"github.com/nguyenvantuan2391996/be-topsis/config"
-	_ "github.com/nguyenvantuan2391996/be-topsis/docs"
-	"github.com/nguyenvantuan2391996/be-topsis/handler"
-	"github.com/nguyenvantuan2391996/be-topsis/internal/domain/usecase"
-	"github.com/nguyenvantuan2391996/be-topsis/internal/infrastructure/repository"
 	swaggerFiles "github.com/swaggo/files"
 	"github.com/swaggo/gin-swagger"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
+	"topsis/config"
+	_ "topsis/docs"
+	"topsis/handler"
+	"topsis/internal/domain/usecase"
+	"topsis/internal/infrastructure/repository"
 )
 
 func main() {

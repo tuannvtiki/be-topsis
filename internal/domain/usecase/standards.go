@@ -3,9 +3,9 @@ package usecase
 import (
 	"context"
 
-	"github.com/nguyenvantuan2391996/be-topsis/handler/model"
-	modelDomain "github.com/nguyenvantuan2391996/be-topsis/internal/domain/model"
-	"github.com/nguyenvantuan2391996/be-topsis/internal/domain/repository"
+	"topsis/handler/model"
+	modelDomain "topsis/internal/domain/model"
+	"topsis/internal/domain/repository"
 )
 
 type StandardDomain struct {

@@ -10,8 +10,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/nguyenvantuan2391996/be-topsis/client/model"
 	"github.com/sirupsen/logrus"
+	"topsis/client/model"
 )
 
 func GetDailyCodingChallenge(url string, params *model.ParamDailyCodingChallenge) (*model.DailyCodingChallenge, error) {
