@@ -5,9 +5,9 @@ import (
 	"testing"
 
 	"github.com/golang/mock/gomock"
+	"github.com/nguyenvantuan2391996/be-topsis/internal/domain/model"
+	"github.com/nguyenvantuan2391996/be-topsis/internal/domain/repository"
 	"github.com/stretchr/testify/assert"
-	"topsis/internal/domain/model"
-	"topsis/internal/domain/repository"
 )
 
 func TestUserDomain_CreateUser(t *testing.T) {

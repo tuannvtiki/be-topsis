@@ -4,8 +4,8 @@ import (
 	"context"
 	"errors"
 
+	"github.com/nguyenvantuan2391996/be-topsis/internal/domain/model"
 	"gorm.io/gorm"
-	"topsis/internal/domain/model"
 )
 
 type StandardRepository struct {

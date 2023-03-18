@@ -3,8 +3,8 @@ package usecase
 import (
 	"context"
 
-	"topsis/internal/domain/model"
-	"topsis/internal/domain/repository"
+	"github.com/nguyenvantuan2391996/be-topsis/internal/domain/model"
+	"github.com/nguyenvantuan2391996/be-topsis/internal/domain/repository"
 )
 
 type UserDomain struct {
