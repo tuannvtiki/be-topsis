@@ -7,9 +7,9 @@ import (
 	"sort"
 	"sync"
 
-	"github.com/nguyenvantuan2391996/be-topsis/internal/domain/helper"
-	"github.com/nguyenvantuan2391996/be-topsis/internal/domain/model"
-	"github.com/nguyenvantuan2391996/be-topsis/internal/domain/repository"
+	"topsis/internal/domain/helper"
+	"topsis/internal/domain/model"
+	"topsis/internal/domain/repository"
 )
 
 const (

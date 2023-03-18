@@ -7,16 +7,16 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/nguyenvantuan2391996/be-topsis/client/constants"
-	"github.com/nguyenvantuan2391996/be-topsis/client/notify"
-	"github.com/nguyenvantuan2391996/be-topsis/config"
-	"github.com/nguyenvantuan2391996/be-topsis/internal/domain/usecase"
-	"github.com/nguyenvantuan2391996/be-topsis/internal/infrastructure/repository"
 	"github.com/robfig/cron/v3"
 	"github.com/sirupsen/logrus"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
+	"topsis/client/constants"
+	"topsis/client/notify"
+	"topsis/config"
+	"topsis/internal/domain/usecase"
+	"topsis/internal/infrastructure/repository"
 )
 
 func main() {

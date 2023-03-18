@@ -1,6 +1,6 @@
 package model
 
-import "github.com/nguyenvantuan2391996/be-topsis/handler/model"
+import "topsis/handler/model"
 
 type ConsultResult struct {
 	Name       string  `json:"name"`

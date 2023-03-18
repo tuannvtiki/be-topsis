@@ -5,8 +5,8 @@
 package repository
 
 import (
-	model "github.com/nguyenvantuan2391996/be-topsis/internal/domain/model"
 	reflect "reflect"
+	model "topsis/internal/domain/model"
 
 	gomock "github.com/golang/mock/gomock"
 )

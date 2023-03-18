@@ -3,8 +3,8 @@ package handler
 import (
 	"net/http"
 
-	"github.com/nguyenvantuan2391996/be-topsis/handler/constant"
-	"github.com/nguyenvantuan2391996/be-topsis/handler/model"
+	"topsis/handler/constant"
+	"topsis/handler/model"
 
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"

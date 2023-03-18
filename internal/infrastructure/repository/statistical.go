@@ -1,8 +1,8 @@
 package repository
 
 import (
-	"github.com/nguyenvantuan2391996/be-topsis/internal/domain/model"
 	"gorm.io/gorm"
+	"topsis/internal/domain/model"
 )
 
 type StatisticalRepository struct {

@@ -4,8 +4,8 @@ import (
 	"context"
 	"testing"
 
-	"github.com/nguyenvantuan2391996/be-topsis/config"
-	"github.com/nguyenvantuan2391996/be-topsis/internal/domain/usecase"
+	"topsis/config"
+	"topsis/internal/domain/usecase"
 )
 
 func TestBotNotify_ProcessNotifyDailyLeetCodingChallenge(t *testing.T) {

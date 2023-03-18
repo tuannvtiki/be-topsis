@@ -4,9 +4,9 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/nguyenvantuan2391996/be-topsis/handler/constant"
-	"github.com/nguyenvantuan2391996/be-topsis/handler/model"
 	"github.com/sirupsen/logrus"
+	"topsis/handler/constant"
+	"topsis/handler/model"
 )
 
 // Consult
