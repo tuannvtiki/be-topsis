@@ -1,6 +1,6 @@
 package model
 
-import "topsis/handler/model"
+import "github.com/nguyenvantuan2391996/be-topsis/handler/model"
 
 const (
 	MaxMax = "max-max" // as big as possible

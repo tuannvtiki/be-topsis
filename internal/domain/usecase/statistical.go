@@ -9,10 +9,10 @@ import (
 	"strings"
 	"time"
 
+	"github.com/nguyenvantuan2391996/be-topsis/internal/domain/model"
+	"github.com/nguyenvantuan2391996/be-topsis/internal/domain/repository"
 	"github.com/wcharczuk/go-chart/v2"
 	"gorm.io/gorm"
-	"topsis/internal/domain/model"
-	"topsis/internal/domain/repository"
 )
 
 type StatisticalDomain struct {

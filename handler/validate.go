@@ -3,8 +3,8 @@ package handler
 import (
 	"errors"
 
-	"topsis/handler/constant"
-	"topsis/handler/model"
+	"github.com/nguyenvantuan2391996/be-topsis/handler/constant"
+	"github.com/nguyenvantuan2391996/be-topsis/handler/model"
 
 	"github.com/go-playground/validator/v10"
 )

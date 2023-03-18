@@ -6,9 +6,9 @@ import (
 	"testing"
 
 	"github.com/golang/mock/gomock"
+	"github.com/nguyenvantuan2391996/be-topsis/internal/domain/model"
+	"github.com/nguyenvantuan2391996/be-topsis/internal/domain/repository"
 	"github.com/stretchr/testify/assert"
-	"topsis/internal/domain/model"
-	"topsis/internal/domain/repository"
 )
 
 func TestConsultDomain_Consult(t *testing.T) {

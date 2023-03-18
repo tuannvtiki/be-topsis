@@ -3,7 +3,7 @@ package repository
 import (
 	"context"
 
-	"topsis/internal/domain/model"
+	"github.com/nguyenvantuan2391996/be-topsis/internal/domain/model"
 )
 
 //go:generate mockgen -package=repository -destination=iscore_ratings_mock.go -source=iscore_ratings.go

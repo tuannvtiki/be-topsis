@@ -2,7 +2,7 @@ package handler
 
 import (
 	"github.com/go-playground/validator/v10"
-	"topsis/internal/domain/usecase"
+	"github.com/nguyenvantuan2391996/be-topsis/internal/domain/usecase"
 )
 
 type Handler struct {
